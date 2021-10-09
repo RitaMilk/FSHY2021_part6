@@ -19,11 +19,30 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
+export const voteOf = (id) => {
+  return {
+    type: 'INCREMENT',
+    data: { id }
+  }
+}
+
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
-  return state
+  switch (action.type) {
+    case 'INCREMENT':
+      const changedRecord=state.filter(record =>record.id===action.data.id)[0]
+      changedRecord.votes+=1
+      const otherRecords=state.filter(record=>record.id !==action.data.id)
+      console.log('changed record=',changedRecord)
+      const newState=otherRecords.concat(changedRecord)
+      return newState
+  
+    default:
+      return state
+  }
+  
 }
 
 export default reducer
