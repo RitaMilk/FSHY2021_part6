@@ -25,6 +25,16 @@ export const voteOf = (id) => {
     data: { id }
   }
 }
+export const createAnecdote=(content)=>{
+  return {
+    type: 'NEW',
+    data: { 
+            content:content,
+            id:getId(),
+            votes:0
+          }
+  }
+}
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
@@ -39,7 +49,9 @@ const reducer = (state = initialState, action) => {
       const newState=otherRecords.concat(changedRecord)
       newState.sort((firstItem, secondItem) =>  secondItem.votes- firstItem.votes)
       return newState
-  
+    
+    case 'NEW':
+      return state.concat(action.data)
     default:
       return state
   }
