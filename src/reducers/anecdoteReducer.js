@@ -45,7 +45,7 @@ const anecdoteReducer = (state = initialState, action) => {
       const changedRecord=state.filter(record =>record.id===action.data.id)[0]
       changedRecord.votes+=1
       const otherRecords=state.filter(record=>record.id !==action.data.id)
-      console.log('changed record=',changedRecord)
+      //console.log('changed record=',changedRecord)
       const newState=otherRecords.concat(changedRecord)
       newState.sort((firstItem, secondItem) =>  secondItem.votes- firstItem.votes)
       return newState
