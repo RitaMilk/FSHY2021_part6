@@ -20,11 +20,11 @@ const notificationsAtStart = [null]
 const initialState = notificationsAtStart[0]
 //const initState= [asObject]
 const notificationReducer = (state = initialState, action) => {
-    console.log('notification state now: ', state)
+    //console.log('notification state now: ', state)
     //console.log('notification action', action.type)
     switch (action.type) {
       case 'SET':
-        console.log ("notificationReducer, voted for:",action.data.content)
+        //console.log ("notificationReducer, voted for:",action.data.content)
         const newState = "You have voted for".concat(' \'',action.data.content,'\'')
         return newState
         
