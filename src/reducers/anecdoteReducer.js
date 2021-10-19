@@ -28,17 +28,23 @@ export const voteOf = (id) => {
 export const createAnecdote=(content)=>{
   return {
     type: 'NEW',
-    data: { 
-            content:content,
-            id:getId(),
-            votes:0
-          }
+    data:{content:content.content,
+          id:content.id,
+          votes:content.votes
+    }
+    
+  }
+}
+export const initializeAnecdotes = (content) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: content,
   }
 }
 
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
+const anecdoteReducer = (state = [], action) => {
+  //console.log('state now: ', state)
+  //console.log('action', action)
 
   switch (action.type) {
     case 'INCREMENT':
@@ -51,7 +57,10 @@ const anecdoteReducer = (state = initialState, action) => {
       return newState
     
     case 'NEW':
-      return state.concat(action.data)
+      //return state.concat(action.data)
+      return [...state, action.data]
+    case 'INIT_ANECDOTES':
+      return action.data
     default:
       return state
   }

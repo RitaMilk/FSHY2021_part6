@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+//import React from 'react'
 import {voteOf } from '../reducers/anecdoteReducer'
 import {useSelector, useDispatch } from 'react-redux'
 import { setNotification,rmNotification  } from '../reducers/notificationReducer'
@@ -21,7 +22,7 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
 
   const vote = (id,content) => {
-    console.log('vote', id)
+    //console.log('vote', id)
     dispatch(voteOf(id))
     dispatch(setNotification(content))
     setTimeout(() => {
