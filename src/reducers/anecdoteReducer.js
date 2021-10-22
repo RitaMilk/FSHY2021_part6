@@ -21,12 +21,7 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-/* export const voteOf = (id) => {
-  return {
-    type: 'INCREMENT',
-    data: { id }
-  }
-} */
+
 export const voteOf = (anecdote) => {
   return async dispatch =>{
     // ...anecdote == content, id, votes
@@ -76,7 +71,7 @@ const anecdoteReducer = (state = [], action) => {
 
     case 'INIT_ANECDOTES':
       return action.data.sort((firstItem, secondItem) =>  secondItem.votes - firstItem.votes)
-      
+
     default:
       return state
   }

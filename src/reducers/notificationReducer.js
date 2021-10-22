@@ -5,6 +5,16 @@ const notificationsAtStart = [null]
       content: ''
     }
   }
+  export const setNotification1 = (content,seconds) => {
+    return dispatch =>{
+     dispatch(setNotification(content))
+      setTimeout(() => {
+         dispatch(rmNotification(content.content))
+      }, seconds*1000) 
+    }
+  }
+  
+  
   export const setNotification = (content) => {
     return {
       type: 'SET',
