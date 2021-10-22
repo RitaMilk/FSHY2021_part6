@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -19,52 +21,65 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-export const voteOf = (id) => {
+/* export const voteOf = (id) => {
   return {
     type: 'INCREMENT',
     data: { id }
   }
-}
-export const createAnecdote=(content)=>{
-  return {
-    type: 'NEW',
-    data:{content:content.content,
-          id:content.id,
-          votes:content.votes
-    }
-    
+} */
+export const voteOf = (anecdote) => {
+  return async dispatch =>{
+    // ...anecdote == content, id, votes
+    const changedAnecdote1 ={...anecdote, votes: anecdote.votes+1}
+    const changedAnecdote = await anecdoteService.update(changedAnecdote1.id,changedAnecdote1)
+    dispatch({
+      type: 'INCREMENT',
+      data: changedAnecdote
+    })
   }
 }
-export const initializeAnecdotes = (content) => {
-  return {
-    type: 'INIT_ANECDOTES',
-    data: content,
+
+
+export const createAnecdote = (content) => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'NEW',
+      data:{content:newAnecdote.content,
+        id:newAnecdote.id,
+        votes:newAnecdote.votes
+      } 
+    })
+  }
+}
+
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes,
+    })
   }
 }
 
 const anecdoteReducer = (state = [], action) => {
-  //console.log('state now: ', state)
-  //console.log('action', action)
-
   switch (action.type) {
     case 'INCREMENT':
-      const changedRecord=state.filter(record =>record.id===action.data.id)[0]
-      changedRecord.votes+=1
-      const otherRecords=state.filter(record=>record.id !==action.data.id)
-      //console.log('changed record=',changedRecord)
-      const newState=otherRecords.concat(changedRecord)
-      newState.sort((firstItem, secondItem) =>  secondItem.votes- firstItem.votes)
-      return newState
-    
+        const otherRecords=state.filter(record=>record.id !==action.data.id)
+        const newState=otherRecords.concat(action.data)
+        newState.sort((firstItem, secondItem) =>  secondItem.votes - firstItem.votes)
+        return newState
+
     case 'NEW':
-      //return state.concat(action.data)
       return [...state, action.data]
+
     case 'INIT_ANECDOTES':
-      return action.data
+      return action.data.sort((firstItem, secondItem) =>  secondItem.votes - firstItem.votes)
+      
     default:
       return state
   }
-  
 }
 
 export default anecdoteReducer
