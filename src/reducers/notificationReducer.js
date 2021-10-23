@@ -5,23 +5,23 @@ const notificationsAtStart = [null]
       content: ''
     }
   }
-  export const setNotification1 = (content,seconds) => {
+  export const setNotification = (content,seconds) => {
     return dispatch =>{
-     dispatch(setNotification(content))
+     dispatch(setActNotification(content))
       setTimeout(() => {
-         dispatch(rmNotification(content.content))
+         dispatch(rmActNotification(content.content))
       }, seconds*1000) 
     }
   }
   
   
-  export const setNotification = (content) => {
+  export const setActNotification = (content) => {
     return {
       type: 'SET',
       data: { content }
     }
   }
-  export const rmNotification = (content) => {
+  export const rmActNotification = (content) => {
     return {
       type: 'REMOVE',
       data: { content }
