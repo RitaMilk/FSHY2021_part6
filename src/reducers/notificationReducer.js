@@ -5,12 +5,17 @@ const notificationsAtStart = [null]
       content: ''
     }
   }
+  let timeOutID
   export const setNotification = (content,seconds) => {
-    return dispatch =>{
-     dispatch(setActNotification(content))
-      setTimeout(() => {
+    //console.log("last notification=",content)
+    return async dispatch =>{
+      //console.log("time remane=",timeOutID)
+      if (timeOutID)
+      {clearTimeout(timeOutID)}
+      dispatch(setActNotification(content))
+      timeOutID=setTimeout(() => {
          dispatch(rmActNotification(content.content))
-      }, seconds*1000) 
+      }, seconds*1000)
     }
   }
   
@@ -43,7 +48,6 @@ const notificationReducer = (state = initialState, action) => {
       default:
         return state
     }
-    
 }
 
 export default notificationReducer
